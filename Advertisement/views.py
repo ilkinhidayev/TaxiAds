@@ -26,3 +26,16 @@ def edit_ad(request):
     else:
         form = AdForm(instance=ad)
     return render(request, 'edit_ad.html', {'form': form})
+
+def manage_ads(request):
+    ads = Ad.objects.all()
+
+    if request.method == 'POST':
+        form = AdForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = AdForm()
+
+    return render(request, 'manage_ads.html', {'form': form, 'ads': ads})

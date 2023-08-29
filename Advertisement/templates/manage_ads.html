@@ -1,0 +1,26 @@
+{% extends "Advertisement/base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Reklam Ekle</h2>
+<form method="post" enctype="multipart/form-data" class="mb-5">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Reklamı Ekle</button>
+</form>
+
+<h2 class="mb-3">Mevcut Reklamlar</h2>
+<div class="row">
+    {% for ad in ads %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ ad.title }}</h5>
+                <a href="#" class="btn btn-warning">Düzenle</a>
+                <a href="#" class="btn btn-danger">Sil</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

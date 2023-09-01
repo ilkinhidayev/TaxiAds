@@ -2,16 +2,6 @@ from django.shortcuts import render, redirect
 from .forms import AdForm
 from .models import Ad
 
-def add_ad(request):
-    if request.method == 'POST':
-        form = AdForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('add_ad')
-    else:
-        form = AdForm()
-    return render(request, 'add_ad.html', {'form': form})
-
 def list_ads(request):
     ads = Ad.objects.all()
     return render(request, 'list_ads.html', {'ads': ads})

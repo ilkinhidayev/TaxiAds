@@ -43,3 +43,19 @@ def manage_ads(request):
 def show_ads(request):
     ads = Ad.objects.all()
     return render(request, 'show_ads.html', {'ads': ads})
+
+def filter_by_location(request):
+    if request.method == "POST":
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+
+        # Konuma göre filtreleme işlemlerinizi burada yapabilirsiniz.
+        # Örneğin: ads = Ad.objects.filter(location=...)
+        # Şimdilik örnek olarak tüm reklamları alalım:
+        ads = Ad.objects.all()
+
+        # Bu reklamları JSON olarak dönüştürmemiz gerekiyor.
+        ads_data = [{'title': ad.title, 'image': ad.image.url, 'description': ad.description} for ad in ads]
+        
+        return JsonResponse(ads_data, safe=False)
+    return JsonResponse({'error': 'Invalid method'}, status=400)

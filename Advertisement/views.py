@@ -14,7 +14,7 @@ def edit_ad(request, ad_id):
         form = AdForm(request.POST, request.FILES, instance=ad)
         if form.is_valid():
             form.save()
-            return redirect('list_ads')
+            return redirect('manage_ads')
     else:
         form = AdForm(instance=ad)
     return render(request, 'edit_ad.html', {'form': form})

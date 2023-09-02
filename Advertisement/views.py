@@ -27,8 +27,6 @@ def delete_ad(request, ad_id):
     else:
         return JsonResponse({'success': False, 'error': 'POST method required.'}, status=400)
 
-
-
 def manage_ads(request):
     ads = Ad.objects.all()
 
@@ -40,5 +38,8 @@ def manage_ads(request):
 
     else:
         form = AdForm()
-
     return render(request, 'manage_ads.html', {'form': form, 'ads': ads})
+
+def show_ads(request):
+    ads = Ad.objects.all()
+    return render(request, 'show_ads.html', {'ads': ads})

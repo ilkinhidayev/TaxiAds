@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Ads</title>
+
+    <!-- Stil bilgisi -->
+    <style>
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        .mySlides {
+            display: none;
+            width: 100%;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="slideshow-container">
+    {% for ad in ads %}
+        <div class="mySlides fade">
+            <img src="{{ ad.image.url }}" style="width:100%">
+        </div>
+    {% endfor %}
+</div>
+
+<!-- JavaScript kodu -->
+<script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        slides[slideIndex-1].style.display = "block";
+        setTimeout(showSlides, 5000); // 5 saniyede bir resim değişir.
+    }
+</script>
+
+</body>
+</html>

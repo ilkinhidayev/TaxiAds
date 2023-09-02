@@ -36,6 +36,7 @@ def manage_ads(request):
         form = AdForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect('manage_ads')
 
     else:
         form = AdForm()

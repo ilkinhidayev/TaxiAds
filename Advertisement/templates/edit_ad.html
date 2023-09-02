@@ -1,5 +1,10 @@
-<form method="post" enctype="multipart/form-data">
+{% extends "Advertisement/base.html" %}
+
+{% block content %}
+<h2 class="mb-3">Reklam Düzenle</h2>
+<form method="post" enctype="multipart/form-data" class="mb-5">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Reklamı Düzenle</button>
+    <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
 </form>
+{% endblock %}

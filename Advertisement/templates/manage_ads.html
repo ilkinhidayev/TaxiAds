@@ -16,11 +16,44 @@
             <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">{{ ad.title }}</h5>
-                <a href="#" class="btn btn-warning">Düzenle</a>
-                <a href="#" class="btn btn-danger">Sil</a>
+                <a href="{% url 'edit_ad' ad.id %}" class="btn btn-warning">Düzenle</a>
+                <a href="#" class="btn btn-danger" data-id="{{ ad.id }}" onclick="deleteAd(this);">Sil</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+<script>
+    function deleteAd(element) {
+        const adId = element.getAttribute('data-id');
+        if (!adId) {
+            alert('Bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.');
+            return;
+        }
+
+        fetch(`/delete/${adId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok');
+        })
+        .then(data => {
+            if (data.success) {
+                // Ad successfully deleted, remove the card from the UI
+                element.closest('.col-md-4').remove();
+            } else {
+                alert('Hata: Reklam silinemedi.');
+            }
+        })
+        .catch(error => {
+            alert('Bir hata oluştu: ' + error.message);
+        });
+    }
+</script>
 {% endblock %}

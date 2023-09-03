@@ -60,11 +60,24 @@
     }
 
     // Harita başlatma
-    var map = L.map('map').setView([39.9334, 32.8597], 6);  // Türkiye'nin genel koordinatları
+    var map = L.map('map').setView([40.4093, 49.8671], 13);  // Türkiye'nin genel koordinatları
 
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxBounds: [
+            [40.3000, 49.7000],
+            [40.5000, 50.0000]
+        ],
+        maxBoundsViscosity: 1.0,
+        maxZoom: 18,
+        minZoom: 10
     }).addTo(map);
+    
+    map.setMaxBounds([
+        [40.3000, 49.7000],
+        [40.5000, 50.0000]
+    ]);
 
     var marker;
 

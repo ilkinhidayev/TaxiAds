@@ -1,0 +1,20 @@
+Project Overview: Location-Based Advertisement Display with Django
+In this project, we developed a web application based on Django to display advertisements tailored to users' locations. Advertisements are filtered and shown to users based on how close their current location is to the specified target location of the ad.
+
+Key Developments:
+Database Modeling: Created an advertisement model named Ad. This model consists of fields capturing ad title, description, image, creation date, target location, and target location radius (e.g., 3 km).
+
+Filtering Based on Location: Retrieved the user's location and compared it with the stored locations of the ads in the database. The Haversine formula was employed to calculate the distance between two locations.
+
+Slideshow Display: The filtered advertisements are passed to the frontend to be displayed in a slideshow. This slideshow sequentially showcases ads that are nearby the user's location.
+
+User Interface: Developed a simple web interface to fetch the user's location and display the filtered advertisements. In this interface, ads determined by location are automatically shown in sequence.
+
+Current Features:
+Location-Specific Ad Display: Ads nearby the user's current location are automatically filtered and displayed.
+
+Haversine Distance Calculation: Used the Haversine formula to determine the distance between two locations.
+
+Dynamic Slideshow Presentation: Filtered ads are presented in a dynamic slideshow format.
+
+User-Specified Location Radius: Each ad allows the specification of a maximum distance (radius) within which it should be accessible by its target audience. This way, ad owners can customize the radius within which they want their ads to be displayed.

@@ -5,8 +5,12 @@
 <form method="post" enctype="multipart/form-data" class="mb-5">
     {% csrf_token %}
     {{ form.as_p }}
+    <input type="hidden" id="id_latitude" name="latitude">
+    <input type="hidden" id="id_longitude" name="longitude">
     <button type="submit" class="btn btn-primary">Reklamı Ekle</button>
 </form>
+
+<div id="map" style="width: 100%; height: 400px;"></div>
 
 <h2 class="mb-3">Mevcut Reklamlar</h2>
 <div class="row">
@@ -45,7 +49,6 @@
         })
         .then(data => {
             if (data.success) {
-                // Ad successfully deleted, remove the card from the UI
                 element.closest('.col-md-4').remove();
             } else {
                 alert('Hata: Reklam silinemedi.');
@@ -55,5 +58,26 @@
             alert('Bir hata oluştu: ' + error.message);
         });
     }
+
+    // Harita başlatma
+    var map = L.map('map').setView([39.9334, 32.8597], 6);  // Türkiye'nin genel koordinatları
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var marker;
+
+    // Haritaya tıklama işlevini ekleyin
+    map.on('click', function(e) {
+        if (marker) {  
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker(e.latlng).addTo(map); 
+
+        document.getElementById('id_latitude').value = e.latlng.lat;
+        document.getElementById('id_longitude').value = e.latlng.lng;
+    });
 </script>
 {% endblock %}

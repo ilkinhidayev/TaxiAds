@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/scripts.js' %}"></script>
+
+    <!-- Headline and Description -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="display-4">Welcome to website</h1>
+                <p class="lead">You can list advertisement to taxis.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giriş ve Kaydol kısmı -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <p class="mb-4">Login or register to continue</p>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg mr-2">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-light btn-lg">Register</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

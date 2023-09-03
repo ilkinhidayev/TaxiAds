@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Your Ads</h2>
+    {% for ad in ads %}
+        <div>
+            <img src="{{ ad.image.url }}" alt="{{ ad.title }}" width="100">
+            <p>{{ ad.title }}</p>
+            <a href="{% url 'edit_ad' ad.id %}">Edit</a>
+            <a href="{% url 'delete_ad' ad.id %}">Delete</a>
+        </div>
+    {% endfor %}
+{% endblock %}

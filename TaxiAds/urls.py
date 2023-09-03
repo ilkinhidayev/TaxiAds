@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from Advertisement import views
 
 urlpatterns = [
+    path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('advertisement/', include('Advertisement.urls')),
     path('delete/<int:ad_id>/', views.delete_ad, name='delete_ad'),

@@ -41,7 +41,9 @@
     {% endfor %}
 </div>
 
-<!-- JavaScript kodu -->
+<!-- JavaScript kodları -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- jQuery Kütüphanesi -->
+
 <script>
     var slideIndex = 0;
     showSlides();
@@ -57,30 +59,26 @@
         slides[slideIndex-1].style.display = "block";
         setTimeout(showSlides, 1000); // 1 saniyede bir resim değişir.
     }
+
+    function getAdsBasedOnLocation() {
+        // Kullanıcının konum bilgisini al
+        navigator.geolocation.getCurrentPosition(function(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+
+            // AJAX POST isteği ile konumu sunucuya gönder
+            $.post("/advertisement/filter_by_location/", { latitude: latitude, longitude: longitude }, function(data) {
+                // Sunucudan dönen veriyi (reklamları) burada işleyin.
+                console.log(data); // Şimdilik veriyi konsola yazdıralım.
+            });
+        });
+    }
+
+    // Fonksiyonu sayfa yüklendiğinde otomatik olarak çağır
+    $(document).ready(function() {
+        getAdsBasedOnLocation();
+    });
 </script>
 
 </body>
 </html>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- jQuery Kütüphanesi -->
-
-<script>
-function getAdsBasedOnLocation() {
-    // Kullanıcının konum bilgisini al
-    navigator.geolocation.getCurrentPosition(function(position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-
-        // AJAX POST isteği ile konumu sunucuya gönder
-        $.post("/advertisement/filter_by_location/", { latitude: latitude, longitude: longitude }, function(data) {
-            // Sunucudan dönen veriyi (reklamları) burada işleyin. Örneğin, bu veriyi kullanarak sayfada reklamları gösterebilirsiniz.
-            console.log(data); // Şimdilik veriyi konsola yazdıralım.
-        });
-    });
-}
-
-// Fonksiyonu sayfa yüklendiğinde otomatik olarak çağır
-$(document).ready(function() {
-    getAdsBasedOnLocation();
-});
-</script>

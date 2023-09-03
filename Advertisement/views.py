@@ -3,6 +3,7 @@ from .forms import AdForm
 from .models import Ad
 from django.http import JsonResponse
 from django.urls import reverse
+import math
 
 def list_ads(request):
     ads = Ad.objects.all()
@@ -44,18 +45,35 @@ def show_ads(request):
     ads = Ad.objects.all()
     return render(request, 'show_ads.html', {'ads': ads})
 
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance in kilometers between two points 
+    on the earth (specified in decimal degrees)
+    """
+    lon1, lat1, lon2, lat2 = map(math.radians, [lon1, lat1, lon2, lat2])
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    r = 6371  # Earth radius in kilometers
+    return c * r
+
+
 def filter_by_location(request):
     if request.method == "POST":
-        latitude = request.POST.get('latitude')
-        longitude = request.POST.get('longitude')
+        user_latitude = float(request.POST.get('latitude'))
+        user_longitude = float(request.POST.get('longitude'))
 
-        # Konuma göre filtreleme işlemlerinizi burada yapabilirsiniz.
-        # Örneğin: ads = Ad.objects.filter(location=...)
-        # Şimdilik örnek olarak tüm reklamları alalım:
-        ads = Ad.objects.all()
+        nearby_ads = []
 
-        # Bu reklamları JSON olarak dönüştürmemiz gerekiyor.
-        ads_data = [{'title': ad.title, 'image': ad.image.url, 'description': ad.description} for ad in ads]
-        
-        return JsonResponse(ads_data, safe=False)
+        for ad in Ad.objects.all():
+            distance = haversine(user_longitude, user_latitude, ad.longitude, ad.latitude)
+            if distance <= ad.radius:
+                nearby_ads.append({
+                    'title': ad.title, 
+                    'image': ad.image.url, 
+                    'description': ad.description
+                })
+
+        return JsonResponse(nearby_ads, safe=False)
     return JsonResponse({'error': 'Invalid method'}, status=400)
